@@ -579,8 +579,9 @@
 		}
 
 		.wrapper.style2 {
-			background-color: #83d3c9;
-			background-image: url("images/light-bl.svg"), url("images/light-br.svg");
+/*			background-color: #83d3c9; changing background colour to light orange  MJT */ 
+			background-color: #f2ab2a; 
+			background-image: url(""), url("");
 			background-position: bottom left, bottom right;
 			background-repeat: no-repeat, no-repeat;
 			background-size: 25em, 25em;
