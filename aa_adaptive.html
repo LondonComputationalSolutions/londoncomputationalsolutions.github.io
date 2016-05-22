@@ -16,7 +16,7 @@ title: glider cockpit bleed
 <!--					<span class="icon fa-mobile"></span> -->
 					<a href="#" class="image"><img src="images/LCS_logos/LCS FAST CMYK transparent.png" alt="London Computational Solutions" style="max-width:30%" /></a>
 					<h2> adaptive mesh  </h2>
-					<p>efficient mesh deployment </p>
+					<p>efficient mesh deployment, put the resolution only where it is needed </p>
 				</header>
 					
 				<!-- One -->
@@ -26,34 +26,41 @@ title: glider cockpit bleed
 							<div class="content">
 								<section>
 
+				            <a href="#" class="image featured"><img src="images/adaptive_pics/lock1.png" alt=""/></a>
 									<header>
-										<h3>Using a hatch for performance</h3>
+										<h3>Adapting your mesh to the flowfield</h3>
 									</header>
 
-<p>	Our client came to us with a proposition. He wanted to know if we could develop with him an idea he had to fit
-While some increase in the boundary layer momentum thickness on the fuselage due to the lower energy air emerging from the cockpit is inevitable we can see that this is minimal and that the freestream air successfully entrains the cabin flow increasing its momentum and delivering a smooth flow on the fuselage downstream of the air extractor. </p>
-	<p>Initial fitting successfully completed all ready for a flight test next month (after the customer's wedding!) and feedback from the pilot.
+<p>	One of the big challenges of transient CFD is the amount of elapsed time and computer hardware resource required to achieve a time accurate result. Another frustration is when you have completed your simulation you discover that your mesh resolution was inadequate and you have to do it all again.
+Our directors <a href="/aa_directors.html" target="_blank">Matthew Piggot</a> and <a href="/aa_directors.html" target="_blank">Gerard Gorman</a> are world experts in the deployment of adaptive mesh in complex flow regimes including aerodynamics, multi-phase flow, turbomachinery in the presence of eroding particles and geophysics.
+ In the example shown in the picture above we show a lock about to open with the liquid in blue on the left (this is a multi-phase flow). In the initial set up both liquid and air (in yellow) are at rest so we only need a very coarse mesh for the main body of the flow but a refinement in the interface.
 </p>
-									<header>
-										<h3>Using a hatch for performance</h3>
-									</header>
-<p> play hfjdh </p>
+            				<a href="#" class="image featured"><img src="images/adaptive_pics/lock2.png" alt=""/></a>
+					<p>Now we release the lock gate and see the mesh refinement immediately respond to changes in the interface plane resolving the complex vortical structures in great detail with no user input. An a-priori unadapted mesh strategy would have been a major challenge to create (as well as being very large and expensive) to guarantee capturing all of these fine details correctly which is essential for accurately predicting the evolution of this flow in time.
+</p>
+            <a href="#" class="image featured"><img src="images/adaptive_pics/lock3.png" alt=""/></a>
+<p> In this picture we can see how the mesh size has dramatically increased from the initial condition (our first image above) in order to be able to accurately capture the full complex interface as the liquid approaches the far wall of the tank. </p>
 
+				            <a href="#" class="image featured"><img src="images/adaptive_pics/lock4.png" alt=""/></a>
 
-<p> put in the noisy vortex here </p>
-
-
-
-            <a href="#" class="image featured"><img src="images/highorder_pics/recirc_color_2.png" alt=""/></a>
-
-
-
-
-
+							<header>
+								<h3>And coarsen again for computational efficiency</h3>
+							</header>
+							<p> Look carefully at the air (yellow) region on the left hand side and compare with the same region in the previous picture. Note how this region of air has significantly coarsened as the liquid migrates to the right hand side which save computional effort, as the computational expense is proportional to the number of mesh cells. We will be bringing this technology to our LCS-FAST solver in both single and multi-phase flow applications.</p>
 
 								</section>
+				<section id="cta">
+				<header>
+					<h2> Learn more about the LCS-FAST philosophy </h2>
+					<p> Explore the vision or check out high order cfd technology </p>
+				</header>
+				<footer class="major">
+                                        <ul class="buttons">
+                                                <li><a href="/aa_vision.html" class="button special"> the LCS_FAST vision</a></li>
+                                                <li><a href="/aa_highorder.html" class="button special">high-order CFD</a></li>
+                                        </ul>
+                                </footer>
+				</section>
 							</div>
-
 					</section>
-
 
