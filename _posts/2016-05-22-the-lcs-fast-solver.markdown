@@ -1,14 +1,20 @@
 ---
 layout: post
-title:  "The LCS-FAST CFD solver"
+title:  "The <b>LCS-FAST</b> CFD solver"
 date:   2016-05-22 10:36:23
 categories: lcs-fast
 ---
 <span class="image featured"><img src="/images/adaptive_pics/lock2.png" alt=""></span>
-Duis in purus sit amet elit ullamcorper venenatis vel a diam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Donec dictum quam id ultricies dapibus. Donec rutrum pellentesque nisl, in bibendum erat imperdiet et. Maecenas eros lorem, dignissim in eros ut, consequat eleifend ante. Duis leo tortor, porttitor non ex ut, varius consectetur purus. Mauris vel erat risus. Nam convallis, lorem et tempus efficitur, nulla tortor efficitur sapien, ut pretium nisl turpis at purus. Nulla dui risus, suscipit nec tellus ac, aliquam finibus mi. Suspendisse accumsan, nisl a aliquet hendrerit, massa metus volutpat libero, et mollis lectus mauris et justo. Ut vitae est ut ligula sollicitudin blandit. Quisque egestas eleifend tortor, in finibus ex. Donec non orci quis odio porttitor mattis.
+Work has commenced on the LCS-FAST CFD solver incorporating all of the skills and expertise of the London Computation Solutions team. This will inclide code generation techniques, highly parallel mesh generation methodology, adaptive mesh techniques and all based on the solid mathematical foundation of finite element modelling, providing the flexibility and robustness to deliver a range of modelling and accuracy to suit your engineering demands.
+ This will provide everything from laminar modelling, turbulence modelling (with and without wall functions), transient techniques including DES, LES and DNS and complex physics, such as multi-phase flow, with only one goal in mind - delivering the very best CFD simulation tool for solving your complex engineering challenges. 
 
-Duis ut blandit lorem. Suspendisse potenti. Donec maximus blandit neque dapibus hendrerit. Praesent dignissim turpis eu nisl varius tempor. Interdum et malesuada fames ac ante ipsum primis in faucibus. Curabitur in volutpat felis. Sed eget neque vel risus fermentum maximus a vel arcu. Vivamus non lorem mattis, vehicula metus eu, pellentesque mauris. Nunc fermentum efficitur justo, et rutrum mi finibus non. Sed vehicula eros id elit elementum rhoncus. Nullam quis tellus vitae metus eleifend pharetra eget interdum nulla. Integer sit amet imperdiet urna.
+<span class="image featured"><img src="/images/LCS_logos/LCS FAST CMYK transparent_widecanvas.png" alt=""></span>
 
-Morbi a semper justo, non eleifend elit. Sed nulla nulla, porttitor nec volutpat eu, pulvinar vitae augue. Curabitur tempor quis lorem eget vestibulum. Aenean vel lacinia orci, ac sollicitudin felis. Nunc eros libero, posuere nec massa ac, consectetur sollicitudin elit. Duis tincidunt nunc et neque egestas rhoncus. Curabitur ut euismod lorem, ut rutrum neque. Nullam at sem eros. Nam interdum lectus non cursus viverra.
+Do you want to join us on the march to high order accuracy? Are you frustrated with the accuracy, robustness or consistency of your current tool? Is your CFD process clunky and unreliable? Then please drop us a line at 
+<a href="mailto:info@lcs-fast.com?Subject=[LCS-query]%20your%20subject" target="_top">info@lcs-fast.com</a>,
+and we will ensure your needs are met by our product. Our company exist only for one purpose, to solve your engineering problems and help you deliver the best products to your market or competitive environment, and the development of our toolset is  motivated only by this goal.
 
-Duis eget magna at arcu tincidunt ultricies. Curabitur in facilisis sem, nec bibendum eros. Nunc fringilla imperdiet diam sed viverra. Vivamus lobortis dignissim mi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi laoreet eu diam eu pellentesque. Duis tempus metus urna, vel faucibus ligula pharetra euismod. Donec rhoncus blandit posuere. Mauris mattis dolor est, dictum venenatis augue facilisis sit amet. Ut ante odio, congue eget arcu nec, semper eleifend urna. Donec rutrum pretium odio non pellentesque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nullam pellentesque nulla at tincidunt ultrices. Donec finibus malesuada magna. Phasellus eget tortor in lectus vehicula viverra sit amet sit amet purus.
+
+<span class="image featured"><img src="/images/highorder_pics/naca0012pic.png" alt=""></span>
+
+Learn about the LCS-FAST vision at this link:  <a href="/aa_vision.html"> the LCS-FAST vision</a>.
