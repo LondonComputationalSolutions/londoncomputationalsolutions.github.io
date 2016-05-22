@@ -12,7 +12,7 @@ Work has commenced on the LCS-FAST CFD solver incorporating all of the skills an
 
 Do you want to join us on the march to high order accuracy? Are you frustrated with the accuracy, robustness or consistency of your current tool? Is your CFD process clunky and unreliable? Then please drop us a line at 
 <a href="mailto:info@lcs-fast.com?Subject=[LCS-query]%20your%20subject" target="_top">info@lcs-fast.com</a>,
-and we will ensure your needs are met by our product. Our company exist only for one purpose, to solve your engineering problems and help you deliver the best products to your market or competitive environment, and the development of our toolset is  motivated only by this goal.
+and we will ensure your needs are met by our product. Our company exists only for one purpose, to solve your engineering problems and help you deliver the best products to your market or competitive environment, and the development of our toolset is  motivated only by this goal.
 
 
 <span class="image featured"><img src="/images/highorder_pics/naca0012pic.png" alt=""></span>
