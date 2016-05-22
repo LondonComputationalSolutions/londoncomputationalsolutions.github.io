@@ -5,8 +5,8 @@ date:   2016-05-22 10:36:23
 categories: lcs-fast
 ---
 <span class="image featured"><img src="/images/adaptive_pics/lock2.png" alt=""></span>
-Work has commenced on the LCS-FAST CFD solver incorporating all of the skills and expertise of the London Computation Solutions team. This will inclide code generation techniques, highly parallel mesh generation methodology, adaptive mesh techniques and all based on the solid mathematical foundation of finite element modelling, providing the flexibility and robustness to deliver a range of modelling and accuracy to suit your engineering demands.
- This will provide everything from laminar modelling, turbulence modelling (with and without wall functions), transient techniques including DES, LES and DNS and complex physics, such as multi-phase flow, with only one goal in mind - delivering the very best CFD simulation tool for solving your complex engineering challenges. 
+Work has commenced on the LCS-FAST CFD solver incorporating all of the skills and expertise of the London Computation Solutions team. This will include code generation techniques, highly parallel mesh generation methodology, adaptive mesh techniques and all based on the solid mathematical foundation of finite element modelling, providing the flexibility and robustness to deliver a range of modelling and accuracy to suit your engineering demands.
+ This will provide everything from laminar flow, turbulence modelling (with and without wall functions), transient techniques including DES, LES and DNS and complex physics, such as multi-phase flow, with only one goal in mind - delivering the very best CFD simulation tool for solving your complex engineering challenges. 
 
 <span class="image featured"><img src="/images/LCS_logos/LCS FAST CMYK transparent_widecanvas.png" alt=""></span>
 
