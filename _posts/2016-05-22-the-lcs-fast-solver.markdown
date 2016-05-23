@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "The <b>LCS-FAST</b> CFD solver"
+title:  "The LCS-FAST CFD solver"
 date:   2016-05-22 10:36:23
 categories: lcs-fast
 ---
