@@ -17,4 +17,4 @@ and we will ensure your needs are met by our product. Our company exists only fo
 
 <span class="image featured"><img src="/images/highorder-pics/naca0012pic.png" alt=""></span>
 
-Learn about the LCS-FAST vision at this link:  <a href="/aa_vision.html"> the LCS-FAST vision</a>.
+Learn about the LCS-FAST vision at this link:  <a href="/vision"> the LCS-FAST vision</a>.
