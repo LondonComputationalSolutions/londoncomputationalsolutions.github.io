@@ -805,7 +805,8 @@
 	#banner {
 		background-attachment: scroll, scroll, scroll, fixed;
 		background-color: #645862;
-		background-image: url(""), url(""), url("images/overlay.png"), url("/images/Elemental-pics/RP1-track-bw.png");
+/*		background-image: url(""), url(""), url("images/overlay.png"), url("/images/Elemental-pics/RP1-track-bw.png"); */
+		background-image: url(""), url(""), url(""), url("/images/Elemental-pics/big_rp1_front_line_gimp.png"); 
 		background-position: bottom left, bottom right, top left, top center;
 		background-repeat: no-repeat, no-repeat, repeat, no-repeat;
 		background-size: 25em, 25em, auto, cover;
@@ -826,7 +827,7 @@
 			-o-animation-fill-mode: forwards;
 			-ms-animation-fill-mode: forwards;
 			animation-fill-mode: forwards;
-			background: rgba(52, 27, 43, 0.5);
+/*			background: rgba(52, 27, 43, 0.5);  not using this background anymore */
 			color: white;
 			display: inline-block;
 			opacity: 0;
