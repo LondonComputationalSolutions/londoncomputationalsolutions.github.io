@@ -34,7 +34,7 @@ title: lcs-fast cfd solver
 									</header>
 
 <p>	
-LCS-FAST working closely with the <a href="http://www.nektar.info/" target="_blank"> Nektar++ team</a>  in the Dept of Aeronautics at Imperial College has performed  5th order accurate simulations using the high order spectral method solver <a href="http://www.nektar.info/" target="_blank"> Nektar++</a> for the Elemental RP1.
+LCS-FAST working closely with the <a href="http://www.nektar.info/" target="_blank"> Nektar++ team</a>  in the Dept of Aeronautics at Imperial College has performed  5th order accurate simulations using the high order spectral method solver <a href="http://www.nektar.info/" target="_blank"> Nektar++</a> for the Elemental RP1. The motivation for running high order sumulations is described <a href="/high_order"> here</a>. 
 This, we believe, is the first such calculation on an automotive whole car geometry and certainly one of the most complex geometries that this method has ever been attempted on. This work was motivated by two goals, the first to provide detailed insight into the aerodynamics of the Elemental Rp1 to inform a major upgrade in its aerodynamic configuration (see <a href="/rp1upgrade"> here</a> for more details), and the second to understand the capabilities of the code on such a complex engineering case to provide direction to the ongoing high order methods research programme in the <a href="http://www.nektar.info/" target="_blank"> Nektar++ group.</a>
 </p> 
             <a href="#" class="image featured"><img src="/images/Elemental-pics/mesh_slide.png" alt="front high order mesh"/></a>
@@ -46,11 +46,11 @@ The first step, of course, is to produce a mesh for the simulation. Being a high
 </p>
             <a href="#" class="image featured"><img src="/images/Elemental-pics/visit0107.png" alt="front high order mesh"/></a>
 <p>
-Here we show the front of the car and illustrate how the curvature of the car surfaces are accurately captured by the curved surface mesh elements. These are then extruded for 5 cells to create a high resolution prism mesh for the boundary later before merging into the high order tetrahedral core, where the elements can be (and are) linear for computational efficiency.
+Here we show the front of the car and illustrate how the curvature of the car surfaces are accurately captured by the curved surface mesh elements. These are then extruded for 6 cells to create a high resolution prism mesh for the boundary layer before merging into the high order tetrahedral core, where the elements can be (and are) linear for computational efficiency.
 </p>
             <a href="#" class="image featured"><img src="/images/Elemental-pics/visit0110.png" alt="rear high order mesh"/></a>
 <p>
-Looking carefully at the rear of the car you can clearly see the effectiveness of the curved elements in capturing the round tail lights and more significantly the curvatures at the corners of the rear diffuser. There would be little point in performing a high order simulation for the ultimate in accuracy if we didn't capture the geometry to that same accuracy. Note that by using this approach we are able to resolve the geometry and off-body flow with just ~2.5 million cells (tetrahedra and prisms) but using the spectral methods with 5th order polynomials we are achieving 1 billion degrees of freedom which is indeed necessary to realise the flow features to the desired accuracy.
+Looking carefully at the rear of the car you can clearly see the effectiveness of the curved elements in capturing the round tail lights and more significantly the curvatures at the corners of the rear diffuser. There would be little point in performing a high order simulation for the ultimate in accuracy if we didn't capture the geometry to that same accuracy. Note that by using this approach we are able to resolve the geometry and off-body flow with just ~2.5 million cells (tetrahedra and prisms), but using the spectral methods with 5th order polynomials we are achieving 1 billion degrees of freedom, which is indeed necessary to realise the flow features to the desired accuracy.
 </p>
             <a href="#" class="image featured"><img src="/images/Elemental-pics/highorder_3.png" alt="high order floor"/></a>
 
