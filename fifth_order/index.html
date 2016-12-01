@@ -42,11 +42,11 @@ This, we believe, is the first such calculation on an automotive whole car geome
 										<h3>High order mesh</h3>
 									</header>
 <p>
-The first step, of course, is to produce a mesh for the simulation. Being a high order simulation we want high order curved elements, a schematic of which is shown above. On the left we can see the expansion from a curved boundary layer cell, and on the right the quadrature map on the surface mesh reflecting the resolution we are actually achieving.
+The first step, of course, is to produce a mesh for the simulation. Being a high order simulation we want high order curved elements, a schematic of which is shown above. On the left we can see the expansion from a curved boundary layer cell, and on the right the quadrature map on the surface mesh reflecting the resolution we are actually achieving. 
 </p>
             <a href="#" class="image featured"><img src="/images/Elemental-pics/visit0107.png" alt="front high order mesh"/></a>
 <p>
-Here we show the front of the car and illustrate how the curvature of the car surfaces are accurately captured by the curved surface mesh elements. These are then extruded for 6 cells to create a high resolution prism mesh for the boundary layer before merging into the high order tetrahedral core, where the elements can be (and are) linear for computational efficiency.
+Here we show (courtesy of Michael Turner of the Nektar++ team) the front of the car and illustrate how the curvature of the car surfaces are accurately captured by the curved surface mesh elements. These are then extruded for 6 cells to create a high resolution prism mesh for the boundary layer before merging into the high order tetrahedral core, where the elements can be (and are) linear for computational efficiency.
 </p>
             <a href="#" class="image featured"><img src="/images/Elemental-pics/visit0110.png" alt="rear high order mesh"/></a>
 <p>
