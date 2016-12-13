@@ -10,7 +10,8 @@ url: "http://www.lcs-fast.com" # the base hostname & protocol for your site
 twitter_username: lcs_fast
 github_username:  markjtaylor
 
-google_analytics: UA-75494655-1
+#google_analytics: UA-75494655-1
+google_analytics: UA-88932637-1
 
 # Build settings
 markdown: kramdown
