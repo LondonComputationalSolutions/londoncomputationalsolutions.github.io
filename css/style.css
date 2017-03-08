@@ -331,6 +331,15 @@
 					background: #df7b77;
 				}
 
+			.icon.circle.fa-youtube {
+				background: #db6b67;
+				color: white;
+			}
+
+				.icon.circle.fa-youtube:hover {
+					background: #df7b77;
+				}
+
 			.icon.circle.fa-github {
 				background: #dcad8b;
 				color: white;
