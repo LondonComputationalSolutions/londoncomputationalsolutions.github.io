@@ -25,12 +25,15 @@ title: high order CFD
 							<div class="content">
 								<section>
 
-					            <a href="#" class="image featured"><img src="/images/highorder-pics/naca0012pic.png" alt="NACA 0012"/></a>
+					     <!--       <a href="#" class="image featured"><img src="/images/highorder-pics/naca0012pic.png" alt="NACA 0012"/></a> -->
+<div class="aspect-ratioC">
+<iframe id="video" src="https://www.youtube.com/embed/KZpa-CEitsI?rel=0&autoplay=1&loop=1&playlist=KZpa-CEitsI" frameborder="0" allowfullscreen> </iframe>
+</div>
 									<header>
 										<h3>High order offers more resolution</h3>
 									</header>
 
-<p> In the image above we capture a snapshot of the vortex roll-up on a NACA0012  wing tip section. Because of the high resolution, we can see in the detail of the boundary layer flow over the main body of the wing the small scale structures reflected in this plot of helicity. Detail like this is atypical in CFD,
+<p> In the image above we capture the vortex roll-up on a NACA0012  wing tip section. Because of the high resolution, we can see in the detail of the boundary layer flow over the main body of the wing the small scale structures reflected in this plot of helicity. Detail like this is atypical in CFD,
  as most CFD is undertaken at second order and deploys a single or two equation turbulence closure model. In this simulation we used a 6th order simulation without any turbulence modelling apart from a sub grid scale viscosity model.
  While for many industrial applications the lower order methods meet engineering requirements, there is an increasing demand from industry for higher fidelity simulations to provide more insight and understanding of their flow regimes. In the image above,
  we see a small counter-rotating structure (shown in yellow) wrapped around the main vortex downstream
@@ -45,6 +48,26 @@ of the trailing edge of the aerofoil which is not seen in the second order simul
 									</header>
 		<p> Our director <a href="/the_team" target="_blank">Spencer Sherwin</a> is a world expert in spectral/hp methods illustrated in the picture above where in the triangular map we can see linear finite elements resolving the geometry (the geography of the Britain and Ireland) but by applying high
  order polynomial bases on each element we can resolve complex features. Spencer has been developing this technology for the last 20 years and deployed it successfully on complex industrial geometries including jet aircraft and Formula 1 racing cars, which has included solving the challenge of creating high order meshes.		</p>
+<p>
+In the video below, we compare an exact solution, a refined second order solution (N=128, P=1) typically of
+conventional finite volume method (FVM) but actually using a DG technique which is more
+accurate than FVM, a coarser mesh but with a higher order polynomial P order (N=32,P=3) and a
+very coarse mesh with an 8th order polynomial (N=8,P=8). 
+solutions at Time=0s.
+</p>
+<div class="aspect-ratioB">
+<iframe id="video" src="https://www.youtube.com/embed/GLe3j0l11_k?rel=0&autoplay=1&loop=1&playlist=GLe3j0l11_k" frameborder="0" allowfullscreen> </iframe>
+</div>
+<p>
+Running the simulation for 5 seconds physical time we see that in the low order method (N=128,
+P=1) the vortex has effectively disappeared. The coarser mesh (N=32, P=3) with third order
+polynomial does clearly show the presence of the vortex but the peak is somewhat dissipated. But
+the message we want to convey is that on by far the coarsest mesh (N=8, P=8) with an eighth
+order polynomial provides by far the best representation of the vortex, showing the power of the
+spectral/hp method. Note these simulations have been designed to illustrate the technology, and in
+order to best capture the vortex an appropriate mix of mesh resolution and polynomial resolution
+(probably N=32, P=5) would be chosen.
+</p>
 
             <a href="#" class="image featured"><img src="/images/highorder-pics/VorticesNearBump.png" alt="Vortices near bump"/></a>
 									<header>
@@ -53,12 +76,18 @@ of the trailing edge of the aerofoil which is not seen in the second order simul
 		<p> Here we see two counter rotating vortices approaching a depression (which causes a pressure rise) leading to a breakdown in both structures. Many aerodynamic applications, such a motor racing aerodynamics, involve the manipulation of vortices in the vicinity of geometry to manage other flow structures and exploit the low pressure in the core of a vortex to generate suction on a surface. </p> 
             <a href="#" class="image featured"><img src="/images/highorder-pics/VorticesNearHump.png" alt="Vortices near hump"/></a>
 		<p> The same pair of counter rotating vortices are shown here approaching a bump, opposite in shape to the depression we looked at above, and we can see that the reduction in pressure ensures both vortices more successfully negotiate the obstacle. Performing simulations at this high a resolution affords us the opportunity to study the modes in the vortex and to analyse the stability of the structures providing insight to the aerodynamicist seeking to optimise the geometry.  </p>
-            <a href="#" class="image featured"><img src="/images/highorder-pics/recirc-color-2.jpg" alt="vortices"/></a>
+<div class="aspect-ratioB">
+<iframe id="video" src="https://www.youtube.com/embed/f6Ja2ADhWwg?rel=0&autoplay=1&loop=1&playlist=f6Ja2ADhWwg" frameborder="0" allowfullscreen> </iframe>
+</div>
+<p>
+In the video above we show a pair of co-rotating equal strength vortices being subjected to a noise source, and the resultant secondary instabilities of the vortices are accurately captured in the transient Nektar++ solution, illustrating the exceptional detail captured by the high order simulation approach.
+</p>
 									<header>
 										<h3>Application to boundary layers</h3>
 									</header>
 			<p> This study involved the application of these spectral/hp techniques to the study of stalling wings. The method is being used to explore the application of wavy leading edges to improve the behaviour of the wing at very high incidences. If you are interested to know more or have an application that would benefit from this technology email us at  
 <a href="mailto:mark@lcs-fast.com?Subject=[LCS-query]%20your%20subject" target="_top">mark@lcs-fast.com</a>. </p>
+            <a href="#" class="image featured"><img src="/images/highorder-pics/recirc-color-2.jpg" alt="vortices"/></a>
 								</section>
 
 				
