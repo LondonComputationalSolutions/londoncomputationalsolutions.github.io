@@ -1,0 +1,246 @@
+---
+layout: default
+title: Optimisation Technology
+---
+
+<!-- Main -->
+	<article id="main">
+
+		<header class="special container">
+			<a href="#" class="image"><img src="/images/LCS-logos/LCS-FAST-CMYK-transparent.png" alt="London Computational Solutions" style="max-width:30%" /></a>
+			<h2><strong>fast</strong>er shape optimisation</h2>
+			<p> Aaerodynamic  design using automatic differentiation</p>
+		</header>
+
+		<!-- One -->
+		<section class="wrapper style4 container">
+
+		<!-- Content -->
+		<div class="content">
+		<section>
+
+
+
+
+
+<h1 id="fastaeroandhydrodynamicdesignusingautomaticdifferentiation">Fast aerodynamic  design using automatic differentiation</h1>
+
+<p>LCS-FAST has been working with the Mathematical Institute at the University of Oxford on researching novel shape optimisation techniques for aerodynamic and hydrodynamic design. In this blog post we describe recent developments in open source finite element libraries that allow for the rapid development of solvers and optimisation algorithms in fluid dynamics.</p>
+
+<h1 id="optimisationofanairfoilsubjecttogeometricconstraints">Introduction to the  challenge of optimisation: a model problem</h1>
+
+<p>We consider a second example: the optimisation of an airfoil.
+§https://www.maths.ox.ac.uk/people/patrick.farrell and florian link 
+folksy bit about what we set out to do 
+The objective we consider is the airfoils aerodynamic efficiency, that is the ratio of the lift and drag.
+The goal is to obtain design that yields a large amount of lift while having low drag.
+In addition, we enforce box constraints on the airfoil; this is particularly relevant in applications like Formula 1 where the design of the car is strongly constrained by the rulebook.
+The video below shows the shape of the airfoil at each iteration in the optimisation and the colours indicate the velocity obtained by solving for laminar flow.</p>
+
+			<a href="#" class="image featured"><img src="/images/optimisation-pics/optimise001.png" alt="the wing challenge"  /></a>
+
+
+
+<h1 id="rapiddevelopmentoffiniteelementsolversinfiredrakeandfenics">Rapid development of finite element solvers in Firedrake and FEniCS</h1>
+
+<p>The development of a modern, efficient finite element solver is an undertaking that requires expertise in many different areas of mathematics and computer science:
+on the hand, a competitive solver requires the right choice of discretisation, iterative method and preconditioner, on the other hand, for good performance a thorough understanding of modern hardware and its limits is required to make use of advanced CPU features like AVX512 vectorisation or to create solvers that scale in parallel.
+The goal of the Firedrake and FEniCS finite element libraries is to cleanly separate these concerns and provide a flexible framework that enables the implementation of fast solvers for large classes of PDEs without requiring detailed knowledge of quadratures, parallel communication, or high performance linear algebra.</p>
+
+<p>The backbone of these libraries is the <em>Unified Form Language (UFL)</em>, a domain specific language for the expression of PDEs in variational form.</p>
+
+<p>We consider a simple example of laminar flow in a two dimensional pipe to demonstrate the use of Firedrake and UFL.</p>
+
+<strong>
+<pre># pipe_ns.py
+from firedrake import *
+
+mesh = Mesh("pipe2d.msh")
+
+degree = 2
+V = VectorFunctionSpace(mesh, "CG", degree)
+Q = FunctionSpace(mesh, "CG", degree-1)
+Z = V * Q
+
+z = Function(Z)
+test = TestFunction(Z)
+
+</pre>
+</strong>
+
+<p>In this python code snippet we load the firedrake library, then import a mesh (externally generated in gmsh) and then create two function spaces: one for the velocity and one for the pressure.
+We then take the product of these two spaces and generate a <strong>Function</strong> and a <strong>TestFunction</strong> which we will use to express the variational form of the Navier-Stokes equations.
+We highlight the simplicity of the choice of discretisation: choosing a higher order element is as easy as changing the <strong>degree</strong> variable.
+Alternative discretisations such as a H(div) conformating Raviart-Thomas discretisation for the velocity are as easy as changing the <strong>"CG"</strong> string to <strong>"RT"</strong>; discontinuous pressures can be obtained by using <strong>"DG"</strong>.</p>
+
+<p>Once the function spaces have been created, we define the variational form given by the Navier-Stokes equations:</p>
+
+<pre><strong># pipe_ns.py continued
+nu = 1./400.
+u, p = split(z)
+v, q = split(test)
+e = nu*inner(grad(u), grad(v))*dx - p*div(v)*dx + inner(dot(grad(u), u), v)*dx + div(u)*q*dx
+
+</strong></pre>
+
+<p>Note the close to mathematical notation for gradients, divergence and integrals.
+We now set some boundary conditions on the velocity space</p>
+
+<pre><strong># pipe_ns.py continued
+X = SpatialCoordinate(mesh)
+uin = 6 * as_vector([(1-X[1])*X[1], 0])
+bcs = [DirichletBC(Z.sub(0), Constant((0, 0)), [3, 4]), DirichletBC(Z.sub(0), uin, 1)]
+
+</strong></pre>
+
+<p>Now we are ready to solve the PDE</p>
+
+<pre><strong># pipe_ns.py continued
+sp = {
+    "mat_type": "aij",
+    "pc_type": "lu",
+    "pc_factor_mat_solver_type": "mumps"
+}
+
+solve(e==0, z, bcs=bcs, solver_parameters=sp)
+
+out = File("u.pvd")
+out.write(z.split()[0])
+
+</strong></pre>
+
+<p>We specify a few parameters to select the parallel direct solver MUMPS, and then just call <strong>solve(e==0, ...)</strong>.
+Note that the Navier-Stokes equations are a non-linear PDE! UFL recognizes this and automatically calculated the Jacobian of <strong>e</strong> and applies Newton's method.
+This is particularly useful for complicated, highly non-linear equations, such as those modelling the turbulent kinetic energy <strong>k</strong> or rate of dissipation of turbulence energy <strong>eps</strong> in a k-epsilon turbulence model.</p>
+
+<p>Opening the file <strong>u.pvd</strong> in paraview, we see this velocity plot:</p>
+
+<a href="#" class="image featured"><img src="/images/optimisation-pics/pipe_initial.png" alt="pipe_initial"/></a>
+
+<h1 id="derivativebasedshapeoptimisation">Derivative based shape optimisation</h1>
+
+<p>Typically Computational Fluid Dynamics is not only used to analyse the airflow around a given design, but to provide guidance how a design could be improved.
+A typical usecase is the search for wing designs that have low drag while still providing sufficient lift.
+The classical workflow of a CFD engineer working on this sort of problem is:</p>
+
+<a href="#" class="image featured"><img src="/images/optimisation-pics/shape-opt-schematic.png" alt="shape-opt-schematic"/></a>
+
+<p>The goal of shape optimisation is to automate this process: one starts with an initial design and and specifies an objective, the algorithm then automatically makes changes to this design until it converges to the optimal shape.</p>
+
+<p>The key mathematical concept that makes this possible is the <em>shape derivative</em>. Instead of guessing new designs at every iteration, the shape derivative tells us to first order what the effect of a small change to the shape of the object would be. Such a deformation can be seen in the figure below.</p>
+
+<a href="#" class="image featured"><img src="/images/optimisation-pics/airfoil-deformation.png" alt="airfoil-deformation"/></a>
+
+<p>At every iteration this shape derivative is then used to find the deformation of the current shape that reduces the objective as much as possible.</p>
+
+<p>While shape derivatives are an extremely powerful tool, they are usually difficult to derive.
+As an example, consider the case of minimizing the dissipated energy in a fluid governed by the (laminar Navier-Stokes equations). The shape derivative is given by</p>
+
+<pre><strong>    dLdW = -inner(nu * grad(u) * grad(W), grad(v)) * dx
+           - inner(nu * grad(u), grad(v) * grad(W)) * dx
+           - inner(v, grad(u)*grad(W)*u) * dx
+           + tr(grad(v)*grad(W)) * p * dx
+           - tr(grad(u)*grad(W)) * q * dx
+           + div(W) * inner(nu * grad(u), grad(v)) * dx
+           - div(W) * inner(div(v), p) * dx
+           + div(W) * inner(div(u), q) * dx
+           + div(W) * inner(v, grad(u)*u) * dx
+           + inner(grad(u), grad(u)) * div(W) * dx
+           - 2 * inner(grad(u)*grad(W), grad(u)) * dx
+
+</strong></pre>
+
+<p>Once turbulence models are considered the complexity of this derivative is significantly increased again.
+We have recently added a feature to the <em>Unified Form Language</em> (UFL) underlying the popular open-source finite element libraries Firedrake and FEniCS that automates this process.
+The newly added feature in UFL automatically analyses PDEs and objectives and performs symbolic differentiation with respect to the coordinate field. This is described in detail in <em>Ham, Mitchell, Paganini and Wechsung (2018)</em>.
+In fact, it allows us to replace the complicated formula above by just one line of code</p>
+
+<pre><strong>dLdW = derivative(L, X, W)
+
+</strong></pre>
+
+<p>This enables very simple implementation of shape optimisation algorithms.
+In fact, a fully functional shape optimisation code can be written in less than 50 lines of code.</p>
+
+<pre><strong>from firedrake import *
+
+mesh = Mesh("pipe2d.msh")
+coords = mesh.coordinates.vector()
+X = SpatialCoordinate(mesh)
+
+W = mesh.coordinates.function_space()
+gradJ = Function(W)
+phi, psi = TrialFunction(W), TestFunction(W)
+A_riesz = assemble(inner(grad(phi), grad(psi)) * dx)
+
+Z = VectorFunctionSpace(mesh, "CG", 2) * FunctionSpace(mesh, "CG", 1)
+z, z_adjoint = Function(Z), Function(Z)
+u, p = split(z)
+test = TestFunction(Z)
+v, q = split(test)
+
+nu = 1./400.
+e = nu*inner(grad(u), grad(v))*dx - p*div(v)*dx + inner(dot(grad(u), u), v)*dx + div(u)*q*dx
+uin = 6 * as_vector([(1-X[1])*X[1], 0])
+bcs = [DirichletBC(Z.sub(0), 0., [3, 4]), DirichletBC(Z.sub(0), uin, 1)]
+sp = {"pc_type": "lu", "mat_type": "aij", "pc_factor_mat_solver_type": "mumps"}
+
+J = nu * inner(grad(u), grad(u)) * dx
+volume = Constant(1.) * dx(domain=mesh)
+target_volume = assemble(volume)
+dvol = derivative(volume, X)
+c = 0.1
+L = replace(e, {test: z_adjoint}) + J
+dL = derivative(L, X)
+
+out = File("u.pvd")
+def solve_state_and_adjoint():
+    solve(e==0, z, bcs=bcs, solver_parameters=sp)
+    solve(derivative(L, z)==0, z_adjoint, bcs=homogenize(bcs), solver_parameters=sp)
+    out.write(z.split()[0])
+
+solve_state_and_adjoint()
+
+for i in range(100):
+    dJ = assemble(dL).vector() + assemble(dvol).vector() * c * 2  * (assemble(volume)-target_volume)
+    solve(A_riesz, gradJ, dJ, bcs=DirichletBC(W, 0, [1, 2, 3]))
+    print("i = %3i; J = %.6f; ||dJ|| = %.6f" % (i, assemble(J), norm(grad(gradJ))))
+    coords -= 0.5 * gradJ.vector()
+    solve_state_and_adjoint()
+
+</strong></pre>
+
+<p>And we obtain the following shapes throughout the optimisation:</p>
+
+<div class="aspect-ratioB">
+<iframe id="video" src="https://www.youtube.com/embed/BgVmrgjaxaA?rel=0&autoplay=1&loop=1&playlist=BgVmrgjaxaA" frameborder="0" allowfullscreen> </iframe>
+</div>
+
+<h1 id="optimisationofanairfoilsubjecttogeometricconstraints">Optimisation of an airfoil subject to geometric constraints</h1>
+
+<p>We consider a second example: the optimisation of an airfoil.
+The objective we consider is the airfoils aerodynamic efficiency, that is the ratio of the lift and drag.
+The goal is to obtain design that yields a large amount of lift while having low drag.
+In addition, we enforce box constraints on the airfoil; this is particularly relevant in applications like Formula 1 where the design of the car is strongly constrained by the rulebook.
+The video below shows the shape of the airfoil at each iteration in the optimisation and the colours indicate the velocity obtained by solving for laminar flow.</p>
+
+<div class="aspect-ratioB">
+<iframe id="video" src="https://www.youtube.com/embed/-iwDaVdmFkY?rel=0&autoplay=1&loop=1&playlist=-iwDaVdmFkY" frameborder="0" allowfullscreen > </iframe>
+</div>
+
+
+
+
+<h1 id="codeavailability">Code availability</h1>
+
+<p>The code and meshes from this tutorial can be found on GitHub: <a href="https://github.com/florianwechsung/LCS-Automated-Shape-Differentiation">https://github.com/florianwechsung/LCS-Automated-Shape-Differentiation</a></p>
+
+
+
+
+</section>
+	</div>
+
+</section>
+</article>
+

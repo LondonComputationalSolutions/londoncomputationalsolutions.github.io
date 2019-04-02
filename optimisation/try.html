@@ -1,0 +1,374 @@
+---
+layout: default
+title: Optimisation Technology
+---
+
+<!-- Main -->
+	<article id="main">
+
+		<header class="special container">
+			<a href="#" class="image"><img src="/images/LCS-logos/LCS-CMYK-transparent.png" alt="London Computational Solutions" style="max-width:30%" /></a>
+			<h2>going <strong>fast</strong>er shape optimisation</h2>
+			<p>Fast aerodynamic and hydrodynamic design using automatic differentiation</p>
+		</header>
+
+		<!-- One -->
+		<section class="wrapper style4 container">
+
+		<!-- Content -->
+		<div class="content">
+		<section>
+
+<p>
+In this blog post we describe recent developments in open source finite element libraries that allow for the rapid development of solvers and optimisation algorithms in aerodynamics  and hydrodynamics.
+</p>
+
+			<header>
+			<h3>Rapid development of finite element solvers in Firedrake and FEniCS </h3>
+			</header>
+
+<p>
+The development of a modern, efficient finite element solver is an undertaking that requires expertise in many different areas of mathematics and computer science:
+on the hand, a competitive solver requires the right choice of discretisation, iterative method and preconditioner, on the other hand, for good performance a thorough understanding of modern hardware and its limits is required to make use of advanced CPU features like AVX512 vectorisation or to create solvers that scale in parallel.
+The goal of the Firedrake and FEniCS finite element libraries is to cleanly separate these concerns and provide a flexible framework that enables the implementation of fast solvers for large classes of PDEs without requiring detailed knowledge of quadratures, parallel communication, or high performance linear algebra.
+</p>
+
+<p>
+The backbone of these libraries is the _Unified Form Language (UFL)_, a domain specific language for the expression of PDEs in variational form.
+We consider a simple example of laminar flow in a two dimensional pipe to demonstrate the use of Firedrake and UFL.
+</p>
+<p>
+
+
+
+
+
+
+</p>
+
+
+            <a href="#" class="image featured"><img src="/images/Elemental-pics/wing_scheme.png" alt="wing scheme" style="max-width:100%"/> </a>
+			<header>
+			<h3>So what is downforce?</h3>
+			</header>
+<p>Aerodynamic downforce is downwards thrust created by the aerodynamics of the car, the purpose of which is to allow a car to corner faster by increasing the vertical force on the tyres, and thereby creating more grip. The vehicle is pressed down towards the ground increasing its stability. In the schematic above, the use of a wing to generate downforce is illustrated. Downforce is created as a consequence of Newton's third law (every action has an equal and opposite reaction). Because air is a gas, the molecules are free to move about so any solid surface can turn the flow. In this case the aerofoil turns the air upwards by slowing the air on top of the wing and by accelerating the air under the wing. By turning the air upwards, by Newton's third law, the wing is pushed downwards.
+</p>
+
+            <a href="#" class="image featured"><img src="/images/Elemental-pics/bernoulli.png" alt="bernoulli equation" style="max-width:100%"/> </a>
+                        <header>
+                        <h3>An important equation</h3>
+                        </header>
+Above we show the most important equation in aerodynamics, the Bernoulli equation. P, represents the pressure (which is force per unit area) and V, represents the speed of the flow. Thus, we have an equation that relates pressure and flow speed. If the flow goes faster, the pressure reduces and vice versa. 
+In the example of the wing generating downforce discussed above, the flow on top of the wing is slowed which increases the pressure on top of the wing. The flow on the bottom of the wing goes faster which reduces the pressure under the  wing. And because we have high pressure on top of the wing, and low pressure below the wing, we end up with a net downward force. 
+
+            <a href="#" class="image featured"><img src="/images/Elemental-pics/diffuser_scheme.png" alt="diffuser scheme" style="max-width:100%"/> </a>
+                        <header>
+                        <h3>How a diffuser works.</h3>
+                        </header>
+<p> In the diagram above  we show a schematic of a diffuser. The flow is going fast through the throat of the diffuser which gives us low pressure. We know this by applying the Bernoulli equation and in fact just like in the wing case described above the net downward force on the diffuser roof (the red line) is matched by the upward force applied to the air beside it, again applying Newton's third law.
+You are now ready to understand how the RP1 generates downforce.
+</p>
+
+
+            <a href="#" class="image featured"><img src="/images/Elemental-pics/RP1-floorarrows2.png" alt="Floor view" style="max-width:100%"/> </a>
+
+			<header>
+			<h3>How the elemental car works aerodynamically</h3>
+			</header>
+
+<p> The RP1 develops its downforce primarily using its floor geometry which is
+flat with a pronounced front splitter. Its powerful front diffuser develops
+suction at the front of the car and also pushes the front wheel wake losses
+outboard away from the rear of the floor protecting the dramatic rear diffuser,
+which generates substantial downforce at the rear of the car. And as we showed above low 
+pressure is generated under the floor of the car because the diffusers push the air upwards.  A very elegant
+solution, without a wing in sight to spoil the car's lines, and obtained by
+some very clever packaging and a unique driving position (for a road legal
+car).
+</p>
+
+            <a href="#" class="image featured"><img src="/images/Elemental-pics/corner-cf-2.jpg" alt="Cornering" /></a>
+
+			<header>
+			<h3>Why do we need downforce?</h3>
+			</header>
+
+<p> The image above shows a car cornering with the centrifugal force indicated
+by the red arrow, illustrating the force experienced by the car when cornering.
+If the car was driving on pure ice (with no grip) it would not turn the corner
+- it would just keep going in a straight line. Under normal conditions the car
+turns the corner by exploiting the friction
+ between the tyre's contact patch and the road, which we know better as grip,
+ to generate a centripetal force to counteract (or match) the centrifugal
+ force.  The centrifugal force increases with speed so if we want to corner
+ faster we need to generate more and more grip to increase the centripetal
+ force, to balance the centrifugal force and keep the car cornering as the
+ driver intended. Eventually we will reach the limit of traction at either the
+ front or rear axle, leading to understeer if the front loses grip first and
+ oversteer if it is the rear.  </p>
+
+
+<a href="#" class="image featured"><img src="/images/Elemental-pics/corner-diag-2.jpg" alt="Cornening" /></a>
+<header>
+<h3>So how does downforce help?</h3>
+</header>
+
+<p>Above we show a schematic of what is happening in a corner. We have the
+centrifugal force F (the arrow pulling the block to the right) which gets
+larger with increasing speed. Balancing this we have the centripetal force
+F<sub>fr</sub> which is proportional to N (the normal force pushing down - the
+best example of this is weight). &mu; is the coefficient of friction and is a
+property defined by the stickiness of the tyres and the coarseness of the road
+surface.  We can see that the easiest way to increase F<sub>fr</sub> is to
+increase N. You can try this at your desk. Slide your keyboard on your desk
+surface. Now push down on the keyboard and try to slide it again, you will find
+it is harder to slide now.  This is why Elemental wanted to increase the
+downforce on the RP1,  with more downforce the car can balance the centrifugal
+force at higher speeds. You could increase the normal force N by making the car
+heavier. While this would work it would have the effect of reducing the
+acceleration of the car (making it slower!).  So now you can see why Elemental
+chose downforce as their means of increasing cornering speeds and why LCS were
+delighted to help generate more.  </p>
+
+<a href="#" class="image featured"><img src="/images/Elemental-pics/big_rp1_cp_gimp.png" alt="RP1" /></a>
+
+<p> When London Computational Solutions (LCS) first heard from Elemental, they
+asked for a Computational Fluid Dynamics (CFD) analysis of their current car
+with a view to understanding its aerodynamics better, so they could refine its
+aerodynamic balance.  Our first milestone was to demonstrate that our CFD
+modelling matched their wind tunnel data and track results. Once we had
+satisfied their healthy engineering scepticism of simulation technology, which
+complies with our philosophy that the first step in exploiting numerical
+techniques is to prove their engineering accuracy, we moved onto the main topic
+of the project - more performance. </p>
+
+<header>
+	<h3>More downforce please</h3>
+</header>
+
+<p> After a detailed debrief from the vehicle dynamicist and trackside
+aerodynamics consultant, establishing that the LCS CFD results matched the
+behaviour of the car on track, Elemental explained they felt they would like to
+move the aerodynamic balance rearwards by about 5%.  I replied that there were
+two ways of doing this, the first being to back off the front downforce and the
+second being to increase the rear downforce. The immediate emphatic response
+from Messieurs Begley, Fowler and Kent (the Elemental engineering directors)
+was "MORE DOWNFORCE PLEASE!". This invoked a strong burst of nostalgia in my
+mind, reminding me of the last time I had with worked with John, Mark and Peter
+- in 2007 at McLaren F1 winning 8 World Championship races in the season.  An
+achievement based on a relentless drive for more downforce. Bear in mind the
+Elemental RP1 already has more than twice the downforce of any of its'
+competitors, but this is  how you stay ahead - MORE MORE MORE! </p>
+
+
+<header>
+	<h3>A more aerodynamic car floor...</h3>
+</header>
+
+<p> The brief was now clear and LCS set off to deliver the customer's
+requirement. But then came further instructions from Elemental, no appendages
+were permitted (no wings sticking out!) and their packaging of the 320 bhp 2.0
+litre turbo and 6 speed sequential gearbox must be respected.  Very much like
+my F1 days a difficult aerodynamic challenge with tight geometric constraints.
+Then came the next inevitable F1 analogy - "Mark, could you get this done in a
+couple of weeks - we need to charge up the Goodwood Hill at the Festival of
+Speed next month so we need some answers quickly".  And this fits perfectly
+with the LCS-FAST philosophy. Our passion is for doing things FAST, in
+engineering you build on what you did yesterday so if you get more done today
+the better tomorrow will be. So we work FAST. </p>
+
+<a href="#" class="image featured"><img src="/images/Elemental-pics/big_rp1_side_line_gimp.png" alt="RP1" style="max-width:100%"/> </a>
+
+<header>
+	<h3>....and a <strong>fast</strong>er cornering car</h3>
+</header>
+
+<p> LCS then redesigned the rear half of the floor to surpass Elementals' targets delivering 15% more downforce and a greater than 5% shift in aerodynamic balance rearward and met the Elemental deadline. Thus the RP1 retains its stunning turn-in capabilities but now with better stability on corner entry and  even more traction on exit. This will give the RP1 >> 400 kg of downforce at 150 mph! 
+See the <a href="http://elementalcars.co.uk/" target="_blank"> Elemental website</a> for more details. And as you might expect Elemental are not resting on their laurels, they are still asking for MORE so watch this space.....  </p>
+<p> Mark T. </p>
+
+
+</section>
+	</div>
+
+</section>
+</article>
+
+
+
+
+# Fast aero- and hydrodynamic design using automatic differentiation
+
+In this blog post we describe recent developments in open source finite element libraries that allow for the rapid development of solvers and optimisation algorithms in aero-  and hydrodynamics.
+
+## Rapid development of finite element solvers in Firedrake and FEniCS
+
+The development of a modern, efficient finite element solver is an undertaking that requires expertise in many different areas of mathematics and computer science:
+on the hand, a competitive solver requires the right choice of discretisation, iterative method and preconditioner, on the other hand, for good performance a thorough understanding of modern hardware and its limits is required to make use of advanced CPU features like AVX512 vectorisation or to create solvers that scale in parallel.
+The goal of the Firedrake and FEniCS finite element libraries is to cleanly separate these concerns and provide a flexible framework that enables the implementation of fast solvers for large classes of PDEs without requiring detailed knowledge of quadratures, parallel communication, or high performance linear algebra.
+
+The backbone of these libraries is the _Unified Form Language (UFL)_, a domain specific language for the expression of PDEs in variational form.
+
+We consider a simple example of laminar flow in a two dimensional pipe to demonstrate the use of Firedrake and UFL.
+
+    # pipe_ns.py
+    from firedrake import *
+
+    mesh = Mesh("pipe2d.msh")
+
+    degree = 2
+    V = VectorFunctionSpace(mesh, "CG", degree)
+    Q = FunctionSpace(mesh, "CG", degree-1)
+    Z = V * Q
+
+    z = Function(Z)
+    test = TestFunction(Z)
+
+In this python code snipped we load the firedrake library, then import a mesh (externally generated in gmsh) and then create two function spaces: one for the velocity and one for the pressure.
+We then take the product of these two spaces and generate a `Function` and a `TestFunction` which we will use to express the variational form of the Navier-Stokes equations.
+We highlight the simplicity of the choice of discretisation: choosing a higher order element is as easy as changing the `degree` variable.
+Alternative discretisations such as a H(div) conformating Raviart-Thomas discretisation for the velocity are as easy as changing the `"CG"` string to `"RT"`; discontinuous pressures can be obtained by using `"DG"`.
+
+Once the function spaces have been created, we define the variational form given by the Navier-Stokes equations:
+
+    # pipe_ns.py continued
+    nu = 1./400.
+    u, p = split(z)
+    v, q = split(test)
+    e = nu*inner(grad(u), grad(v))*dx - p*div(v)*dx + inner(dot(grad(u), u), v)*dx + div(u)*q*dx
+
+Note the close to mathematical notation for gradients, divergence and integrals. 
+We now set some boundary conditions on the velocity space
+
+    # pipe_ns.py continued
+    X = SpatialCoordinate(mesh)
+    uin = 6 * as_vector([(1-X[1])*X[1], 0])
+    bcs = [DirichletBC(Z.sub(0), Constant((0, 0)), [3, 4]), DirichletBC(Z.sub(0), uin, 1)]
+
+
+Now we are ready to solve the PDE
+
+    # pipe_ns.py continued
+    sp = {
+        "mat_type": "aij",
+        "pc_type": "lu",
+        "pc_factor_mat_solver_type": "mumps"
+    }
+
+    solve(e==0, z, bcs=bcs, solver_parameters=sp)
+
+    out = File("u.pvd")
+    out.write(z.split()[0])
+
+We specify a few parameters to select the parallel direct solver MUMPS, and then just call `solve(e==0, ...)`.
+Note that the Navier-Stokes equations are a non-linear PDE! UFL recognizes this and automatically calculated the Jacobian of `e` and applies Newton's method.
+This is particularly useful for complicated, highly non-linear equations, such as those modelling the turbulent kinetic energy `k` or rate of dissipation of turbulence energy `eps` in a k-epsilon turbulence model.
+
+Opening the file `u.pvd` in paraview, we see this velocity plot:
+
+![](media/pipe_initial.png)
+
+## Derivative based shape optimisation
+
+Typically Computational Fluid Dynamics is not only used to analyse the airflow around a given design, but to provide guidance how a design could be improved.
+A typical usecase is the search for wing designs that have low drag while still providing sufficient lift.
+The classical workflow of a CFD engineer working on this sort of problem is:
+
+![](media/shape-opt-schematic.png)
+
+The goal of shape optimisation is to automate this process: one starts with an initial design and and specifies an objective, the algorithm then automatically makes changes to this design until it converges to the optimal shape.
+
+The key mathematical concept that makes this possible is the _shape derivative_. Instead of guessing new designs at every iteration, the shape derivative tells us to first order what the effect of a small change to the shape of the object would be. Such a deformation can be seen in the figure below.
+
+![](media/airfoil-deformation.png)
+
+At every iteration this shape derivative is then used to find the deformation of the current shape that reduces the objective as much as possible.
+
+
+While shape derivatives are an extremely powerful tool, they are usually difficult to derive.
+As an example, consider the case of minimizing the dissipated energy in a fluid governed by the (laminar Navier-Stokes equations). The shape derivative is given by
+
+        dLdW = -inner(nu * grad(u) * grad(W), grad(v)) * dx
+               - inner(nu * grad(u), grad(v) * grad(W)) * dx
+               - inner(v, grad(u)*grad(W)*u) * dx
+               + tr(grad(v)*grad(W)) * p * dx
+               - tr(grad(u)*grad(W)) * q * dx
+               + div(W) * inner(nu * grad(u), grad(v)) * dx
+               - div(W) * inner(div(v), p) * dx
+               + div(W) * inner(div(u), q) * dx
+               + div(W) * inner(v, grad(u)*u) * dx
+               + inner(grad(u), grad(u)) * div(W) * dx
+               - 2 * inner(grad(u)*grad(W), grad(u)) * dx
+	
+Once turbulence models are considered the complexity of this derivative is significantly increased again.
+We have recently added a feature to the _Unified Form Language_ (UFL) underlying the popular open-source finite element libraries Firedrake and FEniCS that automates this process.
+The newly added feature in UFL automatically analyses PDEs and objectives and performs symbolic differentiation with respect to the coordinate field. This is described in detail in _Ham, Mitchell, Paganini and Wechsung (2018)_.
+In fact, it allows us to replace the complicated formula above by just one line of code
+
+    dLdW = derivative(L, X, W)
+
+This enables very simple implementation of shape optimisation algorithms.
+In fact, a fully functional shape optimisation code can be written in less than 50 lines of code.
+
+    from firedrake import *
+
+    mesh = Mesh("pipe2d.msh")
+    coords = mesh.coordinates.vector()
+    X = SpatialCoordinate(mesh)
+
+    W = mesh.coordinates.function_space()
+    gradJ = Function(W)
+    phi, psi = TrialFunction(W), TestFunction(W)
+    A_riesz = assemble(inner(grad(phi), grad(psi)) * dx)
+
+    Z = VectorFunctionSpace(mesh, "CG", 2) * FunctionSpace(mesh, "CG", 1)
+    z, z_adjoint = Function(Z), Function(Z)
+    u, p = split(z)
+    test = TestFunction(Z)
+    v, q = split(test)
+
+    nu = 1./400.
+    e = nu*inner(grad(u), grad(v))*dx - p*div(v)*dx + inner(dot(grad(u), u), v)*dx + div(u)*q*dx
+    uin = 6 * as_vector([(1-X[1])*X[1], 0])
+    bcs = [DirichletBC(Z.sub(0), 0., [3, 4]), DirichletBC(Z.sub(0), uin, 1)]
+    sp = {"pc_type": "lu", "mat_type": "aij", "pc_factor_mat_solver_type": "mumps"}
+
+    J = nu * inner(grad(u), grad(u)) * dx
+    volume = Constant(1.) * dx(domain=mesh)
+    target_volume = assemble(volume)
+    dvol = derivative(volume, X)
+    c = 0.1
+    L = replace(e, {test: z_adjoint}) + J
+    dL = derivative(L, X)
+
+    out = File("u.pvd")
+    def solve_state_and_adjoint():
+        solve(e==0, z, bcs=bcs, solver_parameters=sp)
+        solve(derivative(L, z)==0, z_adjoint, bcs=homogenize(bcs), solver_parameters=sp)
+        out.write(z.split()[0])
+
+    solve_state_and_adjoint()
+    for i in range(100):
+        dJ = assemble(dL).vector() + assemble(dvol).vector() * c * 2  * (assemble(volume)-target_volume)
+        solve(A_riesz, gradJ, dJ, bcs=DirichletBC(W, 0, [1, 2, 3]))
+        print("i = %3i; J = %.6f; ||dJ|| = %.6f" % (i, assemble(J), norm(grad(gradJ))))
+        coords -= 0.5 * gradJ.vector()
+        solve_state_and_adjoint()
+
+And we obtain the following shapes throughout the optimisation:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/BgVmrgjaxaA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+## Optimisation of an airfoil subject to geometric constraints
+
+We consider a second example: the optimisation of an airfoil.
+The objective we consider is the airfoils aerodynamic efficiency, that is the ratio of the lift and drag.
+The goal is to obtain design that yields a large amount of lift while having low drag.
+In addition, we enforce box constraints on the airfoil; this is particularly relevant in applications like Formula 1 where the design of the car is strongly constrained by the rulebook.
+The video below shows the shape of the airfoil at each iteration in the optimisation and the colours indicate the velocity obtained by solving for laminar flow.
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/-iwDaVdmFkY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> 
+
+## Code availability
+
+The code and meshes from this tutorial can be found on GitHub: [https://github.com/florianwechsung/LCS-Automated-Shape-Differentiation](https://github.com/florianwechsung/LCS-Automated-Shape-Differentiation)
