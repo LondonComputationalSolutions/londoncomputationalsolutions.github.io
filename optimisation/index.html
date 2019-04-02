@@ -25,19 +25,34 @@ title: Optimisation Technology
 
 <h1 id="fastaeroandhydrodynamicdesignusingautomaticdifferentiation">Fast aerodynamic  design using automatic differentiation</h1>
 
-<p>LCS-FAST has been working with the Mathematical Institute at the University of Oxford on researching novel shape optimisation techniques for aerodynamic and hydrodynamic design. In this blog post we describe recent developments in open source finite element libraries that allow for the rapid development of solvers and optimisation algorithms in fluid dynamics.</p>
+<p>LCS-FAST has been working with the Mathematical Institute at the University of Oxford on researching novel shape optimisation techniques for aerodynamic and hydrodynamic design. Here we describe recent developments in open source finite element libraries that allow for the rapid development of solvers and optimisation algorithms in fluid dynamics.</p>
 
 <h1 id="optimisationofanairfoilsubjecttogeometricconstraints">Introduction to the  challenge of optimisation: a model problem</h1>
 
-<p>We consider a second example: the optimisation of an airfoil.
-§https://www.maths.ox.ac.uk/people/patrick.farrell and florian link 
-folksy bit about what we set out to do 
-The objective we consider is the airfoils aerodynamic efficiency, that is the ratio of the lift and drag.
-The goal is to obtain design that yields a large amount of lift while having low drag.
-In addition, we enforce box constraints on the airfoil; this is particularly relevant in applications like Formula 1 where the design of the car is strongly constrained by the rulebook.
-The video below shows the shape of the airfoil at each iteration in the optimisation and the colours indicate the velocity obtained by solving for laminar flow.</p>
+<p>
+Working with our collaborators
+<a href="https://www.maths.ox.ac.uk/people/florian.wechsung" target="_blank">Florian Wechsung</a> and
+<a href="https://www.maths.ox.ac.uk/people/patrick.farrell" target="_blank">Prof Patrick Farrell</a>
+we sought to explore the potential for applying the exciting field of geometric differentiation to the constrained optimisation of aerodynamic devices. 
+This was motivated by my experience of Formula 1 where aerodynamic devices are typically constrained to occupy a fixed geometric space by the technical  regulations or indeed my experience in road cars where inconveniences like gearbox casings or suspension legs tended to get in the way of my inspired diffuser design!
+</p>
+<p>
+As a test problem we have explored the optimisation of an aerofoil at a fixed onset flow within a geometrical box (like those used in the F1 rules). Note that for this example we did not vary the angle of attack so the leading edge is rather incidence sensitive but this does allow us to show more clearly how the technology works. (It would be trivial to extend the analysis to optimise an aerofoil loss bucket).
+</p>
+<p>
+The objective we consider is the airfoil's aerodynamic efficiency, that is the ratio of the lift and drag while we enforce box constraints on the airfoil.
+The goal is to obtain design that fully occupies the extent of the box and  yields a large amount of lift while having low drag.
+The picture below shows the shape of the airfoil at the beginning and end of the process, where the colours indicate the velocity obtained by solving for laminar flow.</p>
 
 			<a href="#" class="image featured"><img src="/images/optimisation-pics/optimise001.png" alt="the wing challenge"  /></a>
+
+<p>
+Starting from a standard Naca aerofoil, we obtain a final shape  that is very different to what you might expect and certainly not something I would have come up with. I find this very exciting as in my F1 days we used to do an inordinate amount of work iterating to find the optimimal design while this process has automatically emerged with a novel and optimised design. 
+</p>
+<p>
+Keep reading if you would like to learn how this was done. You will also learn about cutting edge code-generation technology that allows for rapid algorithm research and development that the team at Oxford exploited to develop these ideas so quickly.
+</p>
+
 
 
 
@@ -113,7 +128,7 @@ out.write(z.split()[0])
 Note that the Navier-Stokes equations are a non-linear PDE! UFL recognizes this and automatically calculated the Jacobian of <strong>e</strong> and applies Newton's method.
 This is particularly useful for complicated, highly non-linear equations, such as those modelling the turbulent kinetic energy <strong>k</strong> or rate of dissipation of turbulence energy <strong>eps</strong> in a k-epsilon turbulence model.</p>
 
-<p>Opening the file <strong>u.pvd</strong> in paraview, we see this velocity plot:</p>
+<p>After running the simulation, we see this velocity plot:</p>
 
 <a href="#" class="image featured"><img src="/images/optimisation-pics/pipe_initial.png" alt="pipe_initial"/></a>
 
