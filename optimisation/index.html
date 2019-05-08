@@ -27,7 +27,7 @@ title: Optimisation Technology
 
 <p>LCS-FAST has been working with the Mathematical Institute at the University of Oxford on researching novel shape optimisation techniques for aerodynamic and hydrodynamic design. Here we describe recent developments in open source finite element libraries that allow for the rapid development of solvers and optimisation algorithms in fluid dynamics.</p>
 
-<h1 id="optimisationofanairfoilsubjecttogeometricconstraints">Introduction to the  challenge of optimisation: a model problem</h1>
+<h1 id="optimisationofanairfoilsubjecttogeometricconstraints">The  challenge of constrained optimisation</h1>
 
 <p>
 Working with our collaborators
@@ -41,13 +41,13 @@ As a test problem we have explored the optimisation of an aerofoil at a fixed on
 </p>
 <p>
 The objective we consider is the airfoil's aerodynamic efficiency, that is the ratio of the lift and drag while we enforce box constraints on the airfoil.
-The goal is to obtain design that fully occupies the extent of the box and  yields a large amount of lift while having low drag.
+The goal is to obtain the design that fully occupies the extent of the box and  yields a large amount of lift while having low drag.
 The picture below shows the shape of the airfoil at the beginning and end of the process, where the colours indicate the velocity obtained by solving for laminar flow.</p>
 
 			<a href="#" class="image featured"><img src="/images/optimisation-pics/optimise001.png" alt="the wing challenge"  /></a>
 
 <p>
-Starting from a standard Naca aerofoil, we obtain a final shape  that is very different to what you might expect and certainly not something I would have come up with. I find this very exciting as in my F1 days we used to do an inordinate amount of work iterating to find the optimimal design while this process has automatically emerged with a novel and optimised design. 
+Starting from a standard Naca aerofoil, we obtain a final shape  that is very different to what you might expect and certainly not something I would have come up with. I find this very exciting as in my F1 days we used to do an inordinate amount of work iterating to find the optimal design while this process has automatically emerged with a novel and optimised design. 
 </p>
 <p>
 Keep reading if you would like to learn how this was done. You will also learn about cutting edge code-generation technology that allows for rapid algorithm research and development that the team at Oxford exploited to develop these ideas so quickly.
@@ -59,8 +59,11 @@ Keep reading if you would like to learn how this was done. You will also learn a
 <h1 id="rapiddevelopmentoffiniteelementsolversinfiredrakeandfenics">Rapid development of finite element solvers in Firedrake and FEniCS</h1>
 
 <p>The development of a modern, efficient finite element solver is an undertaking that requires expertise in many different areas of mathematics and computer science:
-on the hand, a competitive solver requires the right choice of discretisation, iterative method and preconditioner, on the other hand, for good performance a thorough understanding of modern hardware and its limits is required to make use of advanced CPU features like AVX512 vectorisation or to create solvers that scale in parallel.
-The goal of the Firedrake and FEniCS finite element libraries is to cleanly separate these concerns and provide a flexible framework that enables the implementation of fast solvers for large classes of PDEs without requiring detailed knowledge of quadratures, parallel communication, or high performance linear algebra.</p>
+on the one hand, a competitive solver requires the right choice of discretisation, iterative method and preconditioner. On the other hand, for good performance,  a thorough understanding of modern hardware and its limits is required to make use of advanced CPU features like AVX512 vectorisation or to create solvers that scale in parallel.
+The goal of the 
+ <a href="https://www.firedrake.org">Firedrake</a>
+ and  <a href="https://fenicsproject.org">FEniCS</a>
+ finite element libraries is to cleanly separate these concerns and provide a flexible framework that enables the implementation of fast solvers for large classes of PDEs without requiring detailed knowledge of quadratures, parallel communication, or high performance linear algebra.</p>
 
 <p>The backbone of these libraries is the <em>Unified Form Language (UFL)</em>, a domain specific language for the expression of PDEs in variational form.</p>
 
@@ -231,6 +234,10 @@ for i in range(100):
 <iframe id="video" src="https://www.youtube.com/embed/BgVmrgjaxaA?rel=0&autoplay=1&loop=1&playlist=BgVmrgjaxaA" frameborder="0" allowfullscreen> </iframe>
 </div>
 
+<p> Here we plot the convergence of the dissipated energy functional showing a 33% reduction has been achieved.  The linear reduction of the gradient function shows the effectiveness of the technique.</p>  
+			<a href="#" class="image featured"><img src="/images/optimisation-pics/pipe-convergence2.png" alt="the convergence"  /></a>
+
+
 <h1 id="optimisationofanairfoilsubjecttogeometricconstraints">Optimisation of an airfoil subject to geometric constraints</h1>
 
 <p>We consider a second example: the optimisation of an airfoil.
@@ -248,7 +255,7 @@ The video below shows the shape of the airfoil at each iteration in the optimisa
 
 <h1 id="codeavailability">Code availability</h1>
 
-<p>The code and meshes from this tutorial can be found on GitHub: <a href="https://github.com/florianwechsung/LCS-Automated-Shape-Differentiation">https://github.com/florianwechsung/LCS-Automated-Shape-Differentiation</a></p>
+<p>The code and meshes from this tutorial can be found on GitHub: <a href="https://github.com/florianwechsung/LCS-Automated-Shape-Differentiation">here</a></p>
 
 
 
