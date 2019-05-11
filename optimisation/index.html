@@ -9,7 +9,7 @@ title: Optimisation Technology
 		<header class="special container">
 			<a href="#" class="image"><img src="/images/LCS-logos/LCS-FAST-CMYK-transparent.png" alt="London Computational Solutions" style="max-width:30%" /></a>
 			<h2><strong>fast</strong>er shape optimisation</h2>
-			<p> Aaerodynamic  design using automatic differentiation</p>
+			<p> Aerodynamic  design using automatic differentiation</p>
 		</header>
 
 		<!-- One -->
@@ -34,10 +34,10 @@ Working with our collaborators
 <a href="https://www.maths.ox.ac.uk/people/florian.wechsung" target="_blank">Florian Wechsung</a> and
 <a href="https://www.maths.ox.ac.uk/people/patrick.farrell" target="_blank">Prof Patrick Farrell</a>
 we sought to explore the potential for applying the exciting field of geometric differentiation to the constrained optimisation of aerodynamic devices. 
-This was motivated by my experience of Formula 1 where aerodynamic devices are typically constrained to occupy a fixed geometric space by the technical  regulations or indeed my experience in road cars where inconveniences like gearbox casings or suspension legs tended to get in the way of my inspired diffuser design!
+This was motivated by my experience of Formula 1, where aerodynamic devices are typically constrained to occupy a fixed geometric space by the technical  regulations or indeed my experience in road cars where inconveniences like gearbox casings or suspension legs tended to get in the way of my inspired diffuser design!
 </p>
 <p>
-As a test problem we have explored the optimisation of an aerofoil at a fixed onset flow within a geometrical box (like those used in the F1 rules). Note that for this example we did not vary the angle of attack so the leading edge is rather incidence sensitive but this does allow us to show more clearly how the technology works. (It would be trivial to extend the analysis to optimise an aerofoil loss bucket).
+As a test problem we have explored the optimisation of an aerofoil at a fixed onset flow within a geometrical box (like those used in the F1 rules). Note that for this example we did not vary the angle of attack so the leading edge is a rather incidence sensitive show but this does allow us to demonstrate more clearly how the technology works. (It would be trivial to extend the analysis to optimise an aerofoil loss bucket).
 </p>
 <p>
 The objective we consider is the airfoil's aerodynamic efficiency, that is the ratio of the lift and drag while we enforce box constraints on the airfoil.
@@ -50,7 +50,7 @@ The picture below shows the shape of the airfoil at the beginning and end of the
 Starting from a standard Naca aerofoil, we obtain a final shape  that is very different to what you might expect and certainly not something I would have come up with. I find this very exciting as in my F1 days we used to do an inordinate amount of work iterating to find the optimal design while this process has automatically emerged with a novel and optimised design. 
 </p>
 <p>
-Keep reading if you would like to learn how this was done. You will also learn about cutting edge code-generation technology that allows for rapid algorithm research and development that the team at Oxford exploited to develop these ideas so quickly.
+Keep reading if you would like to learn how this was done. You will also learn about cutting edge code-generation technology, that allows for rapid algorithm research and development, that the team at Oxford exploited to develop these ideas so quickly.
 </p>
 
 
@@ -138,7 +138,7 @@ This is particularly useful for complicated, highly non-linear equations, such a
 <h1 id="derivativebasedshapeoptimisation">Derivative based shape optimisation</h1>
 
 <p>Typically Computational Fluid Dynamics is not only used to analyse the airflow around a given design, but to provide guidance how a design could be improved.
-A typical usecase is the search for wing designs that have low drag while still providing sufficient lift.
+A typical example is the search for wing designs that have low drag while still providing sufficient lift.
 The classical workflow of a CFD engineer working on this sort of problem is:</p>
 
 <a href="#" class="image featured"><img src="/images/optimisation-pics/shape-opt-schematic.png" alt="shape-opt-schematic"/></a>
@@ -152,7 +152,7 @@ The classical workflow of a CFD engineer working on this sort of problem is:</p>
 <p>At every iteration this shape derivative is then used to find the deformation of the current shape that reduces the objective as much as possible.</p>
 
 <p>While shape derivatives are an extremely powerful tool, they are usually difficult to derive.
-As an example, consider the case of minimizing the dissipated energy in a fluid governed by the (laminar Navier-Stokes equations). The shape derivative is given by</p>
+As an example, consider the case of minimizing the dissipated energy in a laminar fluid governed by the Navier-Stokes equations. The shape derivative is given by</p>
 
 <pre><strong>    dLdW = -inner(nu * grad(u) * grad(W), grad(v)) * dx
            - inner(nu * grad(u), grad(v) * grad(W)) * dx
@@ -168,7 +168,7 @@ As an example, consider the case of minimizing the dissipated energy in a fluid 
 
 </strong></pre>
 
-<p>Once turbulence models are considered the complexity of this derivative is significantly increased again.
+<p>Once turbulence models are considered, the complexity of this derivative is further significantly increased.
 We have recently added a feature to the <em>Unified Form Language</em> (UFL) underlying the popular open-source finite element libraries Firedrake and FEniCS that automates this process.
 The newly added feature in UFL automatically analyses PDEs and objectives and performs symbolic differentiation with respect to the coordinate field. This is described in detail in <em>Ham, Mitchell, Paganini and Wechsung (2018)</em>.
 In fact, it allows us to replace the complicated formula above by just one line of code</p>
