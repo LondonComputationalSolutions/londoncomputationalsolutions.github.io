@@ -34,7 +34,7 @@ Working with our collaborators
 <a href="https://www.maths.ox.ac.uk/people/florian.wechsung" target="_blank">Florian Wechsung</a> and
 <a href="https://www.maths.ox.ac.uk/people/patrick.farrell" target="_blank">Prof Patrick Farrell</a>
 we sought to explore the potential for applying the exciting field of geometric differentiation to the constrained optimisation of aerodynamic devices. 
-This was motivated by my experience of Formula 1, where aerodynamic devices are typically constrained to occupy a fixed geometric space by the technical  regulations or indeed my experience in road cars where inconveniences like gearbox casings or suspension legs tended to get in the way of my inspired diffuser design!
+This was motivated by my experience of Formula 1, where aerodynamic devices are typically constrained to occupy a fixed geometric space by the technical  regulations. Similarly my experience in road cars where inconveniences like gearbox casings or suspension legs tended to get in the way of my inspired diffuser design!
 </p>
 <p>
 As a test problem we have explored the optimisation of an aerofoil at a fixed onset flow within a geometrical box (like those used in the F1 rules). Note that for this example we did not vary the angle of attack so the leading edge is a rather incidence sensitive show but this does allow us to demonstrate more clearly how the technology works. (It would be trivial to extend the analysis to optimise an aerofoil loss bucket).
@@ -42,7 +42,7 @@ As a test problem we have explored the optimisation of an aerofoil at a fixed on
 <p>
 The objective we consider is the airfoil's aerodynamic efficiency, that is the ratio of the lift and drag while we enforce box constraints on the airfoil.
 The goal is to obtain the design that fully occupies the extent of the box and  yields a large amount of lift while having low drag.
-The picture below shows the shape of the airfoil at the beginning and end of the process, where the colours indicate the velocity obtained by solving for laminar flow.</p>
+The picture below shows the shape of the airfoil at the beginning and end of the process, where the colours indicate the velocity obtained by solving for laminar flow conditions.</p>
 
 			<a href="#" class="image featured"><img src="/images/optimisation-pics/optimise001.png" alt="the wing challenge"  /></a>
 
@@ -50,7 +50,7 @@ The picture below shows the shape of the airfoil at the beginning and end of the
 Starting from a standard Naca aerofoil, we obtain a final shape  that is very different to what you might expect and certainly not something I would have come up with. I find this very exciting as in my F1 days we used to do an inordinate amount of work iterating to find the optimal design while this process has automatically emerged with a novel and optimised design. 
 </p>
 <p>
-Keep reading if you would like to learn how this was done. You will also learn about cutting edge code-generation technology, that allows for rapid algorithm research and development, that the team at Oxford exploited to develop these ideas so quickly.
+Keep reading if you would like to learn how this was done. You will also learn about cutting edge code-generation technology that allows for rapid algorithm research and development, which the team at Oxford exploited to develop these ideas so quickly.
 </p>
 
 
@@ -59,7 +59,7 @@ Keep reading if you would like to learn how this was done. You will also learn a
 <h1 id="rapiddevelopmentoffiniteelementsolversinfiredrakeandfenics">Rapid development of finite element solvers in Firedrake and FEniCS</h1>
 
 <p>The development of a modern, efficient finite element solver is an undertaking that requires expertise in many different areas of mathematics and computer science:
-on the one hand, a competitive solver requires the right choice of discretisation, iterative method and preconditioner. On the other hand, for good performance,  a thorough understanding of modern hardware and its limits is required to make use of advanced CPU features like AVX512 vectorisation or to create solvers that scale in parallel.
+on the one hand, a competitive solver requires the right choice of discretisation, iterative method and pre-conditioner. On the other hand, for good performance,  a thorough understanding of modern hardware and its limits is required to make use of advanced CPU features like AVX512 vectorisation or to create solvers that scale in parallel.
 The goal of the 
  <a href="https://www.firedrake.org">Firedrake</a>
  and  <a href="https://fenicsproject.org">FEniCS</a>
@@ -67,7 +67,7 @@ The goal of the
 
 <p>The backbone of these libraries is the <em>Unified Form Language (UFL)</em>, a domain specific language for the expression of PDEs in variational form.</p>
 
-<p>We consider a simple example of laminar flow in a two dimensional pipe to demonstrate the use of Firedrake and UFL.</p>
+<p>We consider a simple example of laminar flow in a two-dimensional pipe to demonstrate the use of Firedrake and UFL.</p>
 
 <strong>
 <pre># pipe_ns.py
@@ -102,7 +102,7 @@ e = nu*inner(grad(u), grad(v))*dx - p*div(v)*dx + inner(dot(grad(u), u), v)*dx +
 </strong></pre>
 
 <p>Note the close to mathematical notation for gradients, divergence and integrals.
-We now set some boundary conditions on the velocity space</p>
+We now set some boundary conditions on the velocity space:</p>
 
 <pre><strong># pipe_ns.py continued
 X = SpatialCoordinate(mesh)
@@ -111,7 +111,7 @@ bcs = [DirichletBC(Z.sub(0), Constant((0, 0)), [3, 4]), DirichletBC(Z.sub(0), ui
 
 </strong></pre>
 
-<p>Now we are ready to solve the PDE</p>
+<p>Now we are ready to solve the PDE:</p>
 
 <pre><strong># pipe_ns.py continued
 sp = {
@@ -128,7 +128,7 @@ out.write(z.split()[0])
 </strong></pre>
 
 <p>We specify a few parameters to select the parallel direct solver MUMPS, and then just call <strong>solve(e==0, ...)</strong>.
-Note that the Navier-Stokes equations are a non-linear PDE! UFL recognizes this and automatically calculated the Jacobian of <strong>e</strong> and applies Newton's method.
+Note that the Navier-Stokes equations are a non-linear PDE. UFL recognizes this and automatically calculates the Jacobian of <strong>e</strong> and applies Newton's method.
 This is particularly useful for complicated, highly non-linear equations, such as those modelling the turbulent kinetic energy <strong>k</strong> or rate of dissipation of turbulence energy <strong>eps</strong> in a k-epsilon turbulence model.</p>
 
 <p>After running the simulation, we see this velocity plot:</p>
@@ -137,13 +137,13 @@ This is particularly useful for complicated, highly non-linear equations, such a
 
 <h1 id="derivativebasedshapeoptimisation">Derivative based shape optimisation</h1>
 
-<p>Typically Computational Fluid Dynamics is not only used to analyse the airflow around a given design, but to provide guidance how a design could be improved.
+<p>Typically Computational Fluid Dynamics is not only used to analyse the airflow around a given design, but to provide guidance as to how a design could be improved.
 A typical example is the search for wing designs that have low drag while still providing sufficient lift.
 The classical workflow of a CFD engineer working on this sort of problem is:</p>
 
 <a href="#" class="image featured"><img src="/images/optimisation-pics/shape-opt-schematic.png" alt="shape-opt-schematic"/></a>
 
-<p>The goal of shape optimisation is to automate this process: one starts with an initial design and and specifies an objective, the algorithm then automatically makes changes to this design until it converges to the optimal shape.</p>
+<p>The goal of shape optimisation is to automate this process: one starts with an initial design and specifies an objective, the algorithm then automatically makes changes to this design until it converges to the optimal shape.</p>
 
 <p>The key mathematical concept that makes this possible is the <em>shape derivative</em>. Instead of guessing new designs at every iteration, the shape derivative tells us to first order what the effect of a small change to the shape of the object would be. Such a deformation can be seen in the figure below.</p>
 
@@ -169,7 +169,7 @@ As an example, consider the case of minimizing the dissipated energy in a lamina
 </strong></pre>
 
 <p>Once turbulence models are considered, the complexity of this derivative is further significantly increased.
-We have recently added a feature to the <em>Unified Form Language</em> (UFL) underlying the popular open-source finite element libraries Firedrake and FEniCS that automates this process.
+We have recently added a feature to UFL underlying the popular open-source finite element libraries Firedrake and FEniCS that automates this process.
 The newly added feature in UFL automatically analyses PDEs and objectives and performs symbolic differentiation with respect to the coordinate field. This is described in detail in <em>Ham, Mitchell, Paganini and Wechsung (2018)</em>.
 In fact, it allows us to replace the complicated formula above by just one line of code</p>
 
@@ -240,11 +240,9 @@ for i in range(100):
 
 <h1 id="optimisationofanairfoilsubjecttogeometricconstraints">Optimisation of an airfoil subject to geometric constraints</h1>
 
-<p>We consider a second example: the optimisation of an airfoil.
-The objective we consider is the airfoils aerodynamic efficiency, that is the ratio of the lift and drag.
-The goal is to obtain design that yields a large amount of lift while having low drag.
-In addition, we enforce box constraints on the airfoil; this is particularly relevant in applications like Formula 1 where the design of the car is strongly constrained by the rulebook.
-The video below shows the shape of the airfoil at each iteration in the optimisation and the colours indicate the velocity obtained by solving for laminar flow.</p>
+<p>We now show in more detail  the optimisation of the airfoil discussed earlier.
+Recall the objective is to maxmimise the airfoil's aerodynamic efficiency, that is the ratio of the lift and drag.
+The goal is to obtain design that yields a large amount of lift while having low drag, within the geometrical box constraints on the airfoil. The video below shows the shape of the airfoil at each iteration in the optimisation and the colours indicate the velocity obtained by solving for laminar flow.</p>
 
 <div class="aspect-ratioB">
 <iframe id="video" src="https://www.youtube.com/embed/-iwDaVdmFkY?rel=0&autoplay=1&loop=1&playlist=-iwDaVdmFkY" frameborder="0" allowfullscreen > </iframe>
