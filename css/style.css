@@ -11,6 +11,8 @@
 
 	body, #skel-layers-wrapper {
 		background: #f3f6fa; 
+/*		background: #f3f6fa;  */
+/* ideally like #e1c8e0 colour for Sarah page */ 
 	}
 
 	body.is-loading * {
@@ -34,6 +36,7 @@
 		letter-spacing: 0.025em;
 		line-height: 1.75em;
 	}
+
 
 	a {
 		-moz-transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out, background-color 0.2s ease-in-out;
@@ -165,6 +168,17 @@
 	footer.major {
 		padding-top: 3em;
 	}
+
+	footerblue > :last-child {
+		margin-bottom: 0;
+	}
+
+	footerblue.major {
+		padding-top: 3em;
+	}
+
+
+
 
 /* Form */
 
@@ -544,6 +558,28 @@
 				border-color: #db592d !important;
 			}
 
+		input[type="button"].bluish,
+		input[type="submit"].bluish,
+		input[type="reset"].bluish,
+		.button.bluish {
+			background: #091AA4;
+			border-color: #091AA4; 
+			color: white !important;
+		}
+
+			input[type="button"].bluish:hover,
+			input[type="submit"].bluish:hover,
+			input[type="reset"].bluish:hover,
+			.button.bluish:hover {
+				background: #101010 !important;
+				border-color: #101010 !important;
+			}
+
+
+
+
+
+
 		input[type="button"].fit,
 		input[type="submit"].fit,
 		input[type="reset"].fit,
@@ -881,6 +917,10 @@
 				margin: 2em 0 0 0;
 			}
 
+			#banner .inner footerblue {
+				margin: 2em 0 0 0;
+			}
+
 /* Main */
 
 	#main {
@@ -910,6 +950,7 @@
 	body.index #main {
 		padding-top: 5em; 
 	}
+
 
 /* CTA */
 
@@ -987,7 +1028,7 @@
 
 	#footer {
 		background: #e8eef4;
-		color: #1b1b1b
+		color: #1b1b1b;
 		padding: 5em 5em 10em 5em;
 		text-align: center;
 	}
@@ -1009,6 +1050,35 @@
 			}
 
 				#footer .copyright li:first-child {
+					margin: 0;
+					padding: 0;
+					border: 0;
+				}
+
+	#footerblue {
+		background: #e1beea;
+		color: #1b1b1b;
+		padding: 5em 5em 5em 5em;
+		text-align: center;
+	}
+
+		#footerblue .copyright {
+			font-size: 0.8em;
+			line-height: 1em;
+		}
+
+			#footerblue .copyright a {
+				color: inherit;
+			}
+
+			#footerblue .copyright li {
+				display: inline-block;
+				margin-left: 1em;
+				padding-left: 1em;
+				border-left: dotted 1px;
+			}
+
+				#footerblue .copyright li:first-child {
 					margin: 0;
 					padding: 0;
 					border: 0;
